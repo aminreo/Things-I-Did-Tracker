@@ -1,13 +1,19 @@
+:root{
+ --visible-bin: none;
+ 
+}
 .note-card {
     background-color: aqua;
     padding: 10px;
     margin: 10px;
     transition: 0.3s ease;
     border-radius: 5px;
+    display: block;
 }
 
 .note-card:hover{
     transform: scale(1.03);
+     --visible-bin: block;
 }
 
 .Easy{
@@ -29,5 +35,7 @@ body{
 .del-bin{
     max-width: 10px;
     height: auto;
+    display: var(--visible-bin);
+    padding-top: 5px;
 }
 

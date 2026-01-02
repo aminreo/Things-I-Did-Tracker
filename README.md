@@ -6,9 +6,7 @@ Momentum building app, designed to fight impostor syndrome.
 * presistant browser local storage 
 * notes saved with the current date and with difficulty ranking system
 ### Coming soon
-* animations
 * design overhaul
-* delete note function
 
 ## Who is it for
 people wanting to build real confidence in themselves and combat being burned out

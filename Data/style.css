@@ -19,8 +19,12 @@
   input,button{
     border-radius: 10px;
     border-color: #9dbcb1;
-    scale: calc(1.05);
+    /* scale: calc(1.05); */
   }
+  #text-input:hover{
+  transform: scale(1.10);
+  margin: 5px;
+}
 
 .note-card:hover{
 

@@ -26,6 +26,16 @@ document.addEventListener('keydown', function (e) {
         submitFn();
     }
 });
+
+notes.addEventListener('click', function (e) {
+    if (e.target.classList.contains('del-bin')) {
+        const index = e.target.dataset.index;
+        delNote(index);
+
+    }
+});
+
+
 radioBtns[0].checked = true;
 
 updateUI();
@@ -63,15 +73,15 @@ function submitFn() {
 
 }
 
-function updateUI() {
+function updateUI() { //todo add empty page design
     notes.innerHTML = '';
 
     let todayString = "";
     let pastString = "";
-    let cardNumber = -1;
-    savedNotes.forEach(element => {
-        cardNumber += 1;
-        let cardNumberString = "card" + cardNumber;
+    // let cardNumber = -1;
+    savedNotes.forEach((element, index) => {
+        // cardNumber += 1;
+        let cardNumberString = "card" + index;
         // console.log(`ayowwww`);
 
         let dateName = 'Previous days';
@@ -82,7 +92,7 @@ function updateUI() {
             }
             todayString += `<div id="${cardNumberString}"  class="note-card ${element.difficulty}">
         <div class="note-card-content">${element.content}</div>
-                <img class="del-bin" src="Data/Img/recycle-bin.png">
+                <img class="del-bin" data-index="${index}"  id="del${index}" src="Data/Img/recycle-bin.png">
 
         </div>`;
             // <div class="difficulty">${element.difficulty}</div>
@@ -95,7 +105,7 @@ function updateUI() {
             }
             pastString += `<div id="${cardNumberString}" class="note-card ${element.difficulty}">
         <div class="note-card-content">${element.content}</div>
-        <img class="del-bin"   src="Data/Img/recycle-bin.png">
+        <img class="del-bin" data-index="${index}" id="del${index}"  src="Data/Img/recycle-bin.png">
         </div>`;
         }
 
@@ -106,4 +116,12 @@ function updateUI() {
 
     notes.innerHTML += todayString + pastString;
 }
-   
+
+function delNote(index) {
+
+    savedNotes.splice(index, 1);
+    localStorage.setItem('savedNotes', JSON.stringify(savedNotes));
+
+    updateUI();
+
+}

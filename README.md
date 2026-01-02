@@ -21,3 +21,8 @@ Simply run it in the morning to get energized or at night to reflect on things d
 
 ## Why chose this
 Easy way to constanty build confidence in self by reflecting on things one did, no matter how small, it's all steps towards something greater
+
+
+## Notes
+* I designed the cards having different colors based on task difficulty to make it more intuitive and easier to recognize hard challenges which were completed, this way the user feels the momentum
+* On the other hand if the user already finished many `Easy` tasks, he would feel compelled to dare engaging with harder ones

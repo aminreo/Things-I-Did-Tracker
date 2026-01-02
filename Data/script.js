@@ -5,6 +5,9 @@ let typed_content = '';
 let chosen_difficulty = 'Easy';
 let current_date = new Date().toLocaleDateString();
 
+
+
+
 // localStorage.setItem('savedNotes', JSON.stringify([{ content: "test", difficulty: chosen_difficulty, date: current_date }]))
 let savedNotes = [];
 const saved = localStorage.getItem('savedNotes');
@@ -23,9 +26,10 @@ document.addEventListener('keydown', function (e) {
         submitFn();
     }
 });
+radioBtns[0].checked = true;
+
 updateUI();
 
-radioBtns[0].checked = true;
 
 function handleInput(event) {
     typed_content = event.target.value;
@@ -64,7 +68,11 @@ function updateUI() {
 
     let todayString = "";
     let pastString = "";
+    let cardNumber = -1;
     savedNotes.forEach(element => {
+        cardNumber += 1;
+        let cardNumberString = "card" + cardNumber;
+        // console.log(`ayowwww`);
 
         let dateName = 'Previous days';
         if (new Date().toLocaleDateString() == element.date) {
@@ -72,8 +80,10 @@ function updateUI() {
             if (todayString == "") {
                 todayString = `<h2 id="notes-today">Today</h2>`;
             }
-            todayString += `<div class="note-card ${element.difficulty}">
+            todayString += `<div id="${cardNumberString}"  class="note-card ${element.difficulty}">
         <div class="note-card-content">${element.content}</div>
+                <img class="del-bin" src="Data/Img/recycle-bin.png">
+
         </div>`;
             // <div class="difficulty">${element.difficulty}</div>
 
@@ -83,8 +93,9 @@ function updateUI() {
             if (pastString == "") {
                 pastString = `<h2 id="notes-past">Earlier</h2>`;
             }
-            pastString += `<div class="note-card ${element.difficulty}">
+            pastString += `<div id="${cardNumberString}" class="note-card ${element.difficulty}">
         <div class="note-card-content">${element.content}</div>
+        <img class="del-bin"   src="Data/Img/recycle-bin.png">
         </div>`;
         }
 
@@ -94,6 +105,5 @@ function updateUI() {
     });
 
     notes.innerHTML += todayString + pastString;
-
-
 }
+   

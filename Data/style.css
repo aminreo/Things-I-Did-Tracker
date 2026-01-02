@@ -16,14 +16,14 @@
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 
 }
-  input,button{
+  #text-input,button{
     border-radius: 10px;
     border-color: #9dbcb1;
-    /* scale: calc(1.05); */
   }
-  #text-input:hover{
-  transform: scale(1.10);
-  margin: 5px;
+
+  #text-input,button{
+  transform: scale(1.3);
+  margin: 0  0px 10px     ;
 }
 
 .note-card:hover{

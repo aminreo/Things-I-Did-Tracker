@@ -5,17 +5,20 @@ Momentum building app, designed to fight impostor syndrome.
 * dynamic web dev using `js`
 * presistant browser local storage 
 * notes saved with the current date and with difficulty ranking system
+* ability to delete a card
 ### Coming soon
 * design overhaul
 * pin cards
 * edit cards
 * photo support
+* empty board design
+* difficulty buttons new design
 
 ## Who is it for
 people wanting to build real confidence in themselves and combat being burned out
 
 ## How to run
-Visit the [page](https://aminreo.github.io/Things-I-Did-Tracker/index.html) for repo to use the live demo
+Visit the [page](https://aminreo.github.io/Things-I-Did-Tracker/index.html) of the repo to use a live demo
 
 ## Example usage
 Simply run it in the morning to get energized or at night to reflect on things done during the day

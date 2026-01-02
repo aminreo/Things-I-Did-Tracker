@@ -1,5 +1,6 @@
 :root{
  --visible-bin: none;
+ --reverse-bin: 0;
  
 }
 .note-card {
@@ -17,19 +18,24 @@
 }
 
 .Easy{
-    background-color:aqua;
+    background-color:#9dbcb1;
 }
 .Hard{
-    background-color: red;
+    background-color: #4f4537;
+    color: #d3f4e9;
+    --reverse-bin:100%;
+    
 }
 .Medium {
-    background-color: orange;
+    background-color: #bea888;
 }
 body{
-    background-color:antiquewhite;
+    background-image:linear-gradient(to right,#faebd7,#ffcdb9 );
+    #faebd7;
     max-width: 550px;
     padding: 10px;
     margin: 0 auto;
+    color: #4f4537;
 }
 
 .del-bin{
@@ -37,5 +43,18 @@ body{
     height: auto;
     display: var(--visible-bin);
     padding-top: 5px;
+    filter: invert(var(--reverse-bin));
 }
 
+.dashboard h1{
+    font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    margin-bottom: 0;
+        text-decoration: underline;
+        
+        
+}
+
+p{
+    font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    margin-top: 5px;
+}

@@ -11,11 +11,11 @@ const state = {
 
 
 
-// localStorage.setItem('savedNotes', JSON.stringify([{ content: "test", difficulty: chosen_difficulty, date: current_date }]))
-// let savedNotes = [];
+// localStorage.setItem('state.savedNotes', JSON.stringify([{ content: "test", difficulty: state.chosen_difficulty, date: current_date }]))
+// let state.savedNotes = [];
 const saved = localStorage.getItem('savedNotes');
 if (saved) {
-    savedNotes = JSON.parse(saved);
+    state.savedNotes = JSON.parse(saved);
 }
 
 const textInputElem = document.getElementById('text-input');
@@ -45,34 +45,34 @@ updateUI();
 
 
 function handleInput(event) {
-    typed_content = event.target.value;
+    state.typed_content = event.target.value;
 }
 function submitFn() {
-    if (typed_content == '') {
+    if (state.typed_content == '') {
         return;
     }
     for (const radioBtn of radioBtns) {
         if (radioBtn.checked) {
             //     switch (radioBtn.value) {
             //         case "Easy":
-            //             chosen_difficulty = "*";
+            //             state.chosen_difficulty = "*";
             //             break;
             //         case "Medium":
-            //             chosen_difficulty = "**";
+            //             state.chosen_difficulty = "**";
             //             break;
             //         case "Hard":
-            //             chosen_difficulty = "***";
+            //             state.chosen_difficulty = "***";
             //             break;
             //     }
-            chosen_difficulty = radioBtn.value;
+            state.chosen_difficulty = radioBtn.value;
 
         }
     }
-    savedNotes.push({ content: typed_content, difficulty: chosen_difficulty, date: current_date });
-    localStorage.setItem('savedNotes', JSON.stringify(savedNotes));
+    state.savedNotes.push({ content: state.typed_content, difficulty: state.chosen_difficulty, date: current_date });
+    localStorage.setItem('savedNotes', JSON.stringify(state.savedNotes));
     updateUI();
     textInputElem.value = '';
-    typed_content = '';
+    state.typed_content = '';
 
 }
 
@@ -81,7 +81,7 @@ function updateUI() { //todo add empty page design
 
     let todayString = "";
     let pastString = "";
-    savedNotes.forEach((element, index) => {
+    state.savedNotes.forEach((element, index) => {
 
         if (new Date().toLocaleDateString() == element.date) {
             if (todayString == "") {
@@ -104,8 +104,8 @@ function updateUI() { //todo add empty page design
 
 function delNote(index) {
 
-    savedNotes.splice(index, 1);
-    localStorage.setItem('savedNotes', JSON.stringify(savedNotes));
+    state.savedNotes.splice(index, 1);
+    localStorage.setItem('savedNotes', JSON.stringify(state.savedNotes));
 
     updateUI();
 

@@ -1,9 +1,18 @@
-.note-card{
+.note-card {
     background-color: aqua;
     padding: 10px;
     margin: 10px;
 }
 
+.Easy{
+    background-color:aqua;
+}
+.Hard{
+    background-color: red;
+}
+.Medium {
+    background-color: orange;
+}
 body{
     background-color:antiquewhite;
 }

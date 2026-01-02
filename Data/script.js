@@ -2,7 +2,7 @@
 
 
 let typed_content = '';
-let chosen_difficulty = '*';
+let chosen_difficulty = 'Easy';
 let current_date = new Date().toLocaleDateString();
 
 // localStorage.setItem('savedNotes', JSON.stringify([{ content: "test", difficulty: chosen_difficulty, date: current_date }]))
@@ -11,11 +11,6 @@ const saved = localStorage.getItem('savedNotes');
 if (saved) {
     savedNotes = JSON.parse(saved);
 }
-// testing
-
-savedNotes.push({ content: "past days test", difficulty: chosen_difficulty, date: current_date - 1 });
-savedNotes.push({ content: "today test", difficulty: chosen_difficulty, date: current_date });
-
 
 const textInputElem = document.getElementById('text-input');
 textInputElem.addEventListener('input', handleInput);
@@ -41,17 +36,19 @@ function submitFn() {
     }
     for (const radioBtn of radioBtns) {
         if (radioBtn.checked) {
-            switch (radioBtn.value) {
-                case "Easy":
-                    chosen_difficulty = "*";
-                    break;
-                case "Medium":
-                    chosen_difficulty = "**";
-                    break;
-                case "Hard":
-                    chosen_difficulty = "***";
-                    break;
-            }
+            //     switch (radioBtn.value) {
+            //         case "Easy":
+            //             chosen_difficulty = "*";
+            //             break;
+            //         case "Medium":
+            //             chosen_difficulty = "**";
+            //             break;
+            //         case "Hard":
+            //             chosen_difficulty = "***";
+            //             break;
+            //     }
+            chosen_difficulty = radioBtn.value;
+
         }
     }
     savedNotes.push({ content: typed_content, difficulty: chosen_difficulty, date: current_date });
@@ -65,35 +62,38 @@ function submitFn() {
 function updateUI() {
     notes.innerHTML = '';
 
-    let todayString="";
-    let pastString="";
+    let todayString = "";
+    let pastString = "";
     savedNotes.forEach(element => {
+
         let dateName = 'Previous days';
         if (new Date().toLocaleDateString() == element.date) {
             dateName = 'Today';
-            if (todayString == ""){
-                todayString= `<h2 id="notes-today">Today</h2>`;
+            if (todayString == "") {
+                todayString = `<h2 id="notes-today">Today</h2>`;
             }
-            todayString += `<div class="note-card">
+            todayString += `<div class="note-card ${element.difficulty}">
         <div class="note-card-content">${element.content}</div>
-        <div class="difficulty">${element.difficulty}</div>
-        <div class="date">${dateName}</div>
         </div>`;
+            // <div class="difficulty">${element.difficulty}</div>
 
-        } else{
-             if (pastString == ""){
-                pastString= `<h2 id="notes-past">Previous days</h2>`;
+            // <div class="date">${element.date}</div>
+
+        } else {
+            if (pastString == "") {
+                pastString = `<h2 id="notes-past">Earlier</h2>`;
             }
-            pastString += `<div class="note-card">
+            pastString += `<div class="note-card ${element.difficulty}">
         <div class="note-card-content">${element.content}</div>
-        <div class="difficulty">${element.difficulty}</div>
-        <div class="date">${dateName}</div>
         </div>`;
         }
-        
+
+        // <div class="difficulty">${element.difficulty}</div>
+
+
     });
 
-    notes.innerHTML += todayString+pastString;
+    notes.innerHTML += todayString + pastString;
 
 
 }

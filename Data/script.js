@@ -1,15 +1,18 @@
 
 
-
-let typed_content = '';
-let chosen_difficulty = 'Easy';
 let current_date = new Date().toLocaleDateString();
+const state = {
 
+    typed_content: '',
+    chosen_difficulty: 'Easy',
+    savedNotes: []
+
+}
 
 
 
 // localStorage.setItem('savedNotes', JSON.stringify([{ content: "test", difficulty: chosen_difficulty, date: current_date }]))
-let savedNotes = [];
+// let savedNotes = [];
 const saved = localStorage.getItem('savedNotes');
 if (saved) {
     savedNotes = JSON.parse(saved);
@@ -78,38 +81,20 @@ function updateUI() { //todo add empty page design
 
     let todayString = "";
     let pastString = "";
-    // let cardNumber = -1;
     savedNotes.forEach((element, index) => {
-        // cardNumber += 1;
-        let cardNumberString = "card" + index;
-        // console.log(`ayowwww`);
 
-        let dateName = 'Previous days';
         if (new Date().toLocaleDateString() == element.date) {
-            dateName = 'Today';
             if (todayString == "") {
                 todayString = `<h2 id="notes-today">Today</h2>`;
             }
-            todayString += `<div id="${cardNumberString}"  class="note-card ${element.difficulty}">
-        <div class="note-card-content">${element.content}</div>
-                <img class="del-bin" data-index="${index}"  id="del${index}" src="Data/Img/recycle-bin.png">
-
-        </div>`;
-            // <div class="difficulty">${element.difficulty}</div>
-
-            // <div class="date">${element.date}</div>
+            todayString += renderNote(element, index);
 
         } else {
             if (pastString == "") {
                 pastString = `<h2 id="notes-past">Earlier</h2>`;
             }
-            pastString += `<div id="${cardNumberString}" class="note-card ${element.difficulty}">
-        <div class="note-card-content">${element.content}</div>
-        <img class="del-bin" data-index="${index}" id="del${index}"  src="Data/Img/recycle-bin.png">
-        </div>`;
+            pastString += renderNote(element, index);
         }
-
-        // <div class="difficulty">${element.difficulty}</div>
 
 
     });
@@ -123,5 +108,17 @@ function delNote(index) {
     localStorage.setItem('savedNotes', JSON.stringify(savedNotes));
 
     updateUI();
+
+}
+
+
+// html code for cards builder
+function renderNote(element, index) {
+
+    return `<div id="card${index}"  class="note-card ${element.difficulty}">
+        <div class="note-card-content">${element.content}</div>
+                <img class="del-bin" data-index="${index}"  id="del${index}" src="Data/Img/recycle-bin.png">
+
+        </div>`;
 
 }

@@ -7,6 +7,9 @@ Momentum building app, designed to fight impostor syndrome.
 * notes saved with the current date and with difficulty ranking system
 ### Coming soon
 * design overhaul
+* pin cards
+* edit cards
+* photo support
 
 ## Who is it for
 people wanting to build real confidence in themselves and combat being burned out

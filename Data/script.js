@@ -3,19 +3,30 @@
 let current_date = new Date().toLocaleDateString();
 const state = {
 
-    affirmation_text: 'You showed up today :)',
+    affirmation_text: [
+        'You showed up today :)',
+        'Progress counts, even when it’s quiet',
+        'This mattered'
+    ],
     newEntry: false,
     typed_content: '',
     chosen_difficulty: 'Easy',
     savedNotes: [],
-    lastAffirmationDate: []
+    lastAffirmationDate: '',
+    lastAffirmationCount: 0
 
 }
 // we need to store affirmation date in the localstorage to check if user have added a note today
 // otherwise he will only get the affirmation text if he adds something today
 const affirmationTableSaved = localStorage.getItem('affirmationTable');
 if (affirmationTableSaved) {
-    state.lastAffirmationDate = affirmationTableSaved;
+    const aTS = JSON.parse(affirmationTableSaved);
+    if (aTS.date == current_date) {
+        state.lastAffirmationDate = aTS.date;
+        // console.log(aTS.count);
+        state.lastAffirmationCount = aTS.count;
+    }
+
 }
 
 // localStorage.setItem('state.savedNotes', JSON.stringify([{ content: "test", difficulty: state.chosen_difficulty, date: current_date }]))
@@ -75,13 +86,17 @@ function submitFn() {
 function updateUI() { //todo add empty page design
     current_date = new Date().toLocaleDateString();
 
+    // console.log(`${state.lastAffirmationDate}  ${ current_date}`);
+
     if (state.newEntry) {
-        notes.innerHTML = state.affirmation_text;
+        state.lastAffirmationCount++;
+        notes.innerHTML = renderAffirmation();
         state.lastAffirmationDate = current_date;
-        localStorage.setItem('affirmationTable', current_date);
+        localStorage.setItem('affirmationTable', JSON.stringify({ date: current_date, count: state.lastAffirmationCount }));
         state.newEntry = false;
     } else if (state.lastAffirmationDate == current_date) {
-        notes.innerHTML = state.affirmation_text;
+        // console.log('nice');
+        notes.innerHTML = renderAffirmation();
     } else {
         notes.innerHTML = '';
     }
@@ -107,6 +122,17 @@ function updateUI() { //todo add empty page design
     });
 
     notes.innerHTML += todayString + pastString;
+}
+
+function renderAffirmation() {
+    // state.affirmation_text
+    if (state.lastAffirmationCount < 3) {
+        return state.affirmation_text[0];
+    } else if (state.lastAffirmationCount < 5) {
+        return state.affirmation_text[1];
+    } else {
+        return state.affirmation_text[2];
+    }
 }
 
 function delNote(index) {

@@ -3,13 +3,20 @@
 let current_date = new Date().toLocaleDateString();
 const state = {
 
+    affirmation_text: 'You showed up today :)',
+    newEntry: false,
     typed_content: '',
     chosen_difficulty: 'Easy',
-    savedNotes: []
+    savedNotes: [],
+    lastAffirmationDate: []
 
 }
-
-
+// we need to store affirmation date in the localstorage to check if user have added a note today
+// otherwise he will only get the affirmation text if he adds something today
+const affirmationTableSaved = localStorage.getItem('affirmationTable');
+if (affirmationTableSaved) {
+    state.lastAffirmationDate = affirmationTableSaved;
+}
 
 // localStorage.setItem('state.savedNotes', JSON.stringify([{ content: "test", difficulty: state.chosen_difficulty, date: current_date }]))
 // let state.savedNotes = [];
@@ -53,23 +60,12 @@ function submitFn() {
     }
     for (const radioBtn of radioBtns) {
         if (radioBtn.checked) {
-            //     switch (radioBtn.value) {
-            //         case "Easy":
-            //             state.chosen_difficulty = "*";
-            //             break;
-            //         case "Medium":
-            //             state.chosen_difficulty = "**";
-            //             break;
-            //         case "Hard":
-            //             state.chosen_difficulty = "***";
-            //             break;
-            //     }
             state.chosen_difficulty = radioBtn.value;
-
         }
     }
     state.savedNotes.push({ content: state.typed_content, difficulty: state.chosen_difficulty, date: current_date });
     localStorage.setItem('savedNotes', JSON.stringify(state.savedNotes));
+    state.newEntry = true;
     updateUI();
     textInputElem.value = '';
     state.typed_content = '';
@@ -77,7 +73,18 @@ function submitFn() {
 }
 
 function updateUI() { //todo add empty page design
-    notes.innerHTML = '';
+    current_date = new Date().toLocaleDateString();
+
+    if (state.newEntry) {
+        notes.innerHTML = state.affirmation_text;
+        state.lastAffirmationDate = current_date;
+        localStorage.setItem('affirmationTable', current_date);
+        state.newEntry = false;
+    } else if (state.lastAffirmationDate == current_date) {
+        notes.innerHTML = state.affirmation_text;
+    } else {
+        notes.innerHTML = '';
+    }
 
     let todayString = "";
     let pastString = "";

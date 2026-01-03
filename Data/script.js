@@ -1,9 +1,8 @@
 
 
-let current_date = new Date().toLocaleDateString();
 const state = {
 
-    affirmation_text: [
+    affirmationsList: [
         'You showed up today :)',
         'Progress counts, even when it’s quiet',
         'This mattered'
@@ -13,7 +12,8 @@ const state = {
     chosen_difficulty: 'Easy',
     savedNotes: [],
     lastAffirmationDate: '',
-    lastAffirmationCount: 0
+    lastAffirmationCount: 0,
+    current_date: new Date().toLocaleDateString()
 
 }
 // we need to store affirmation date in the localstorage to check if user have added a note today
@@ -21,7 +21,7 @@ const state = {
 const affirmationTableSaved = localStorage.getItem('affirmationTable');
 if (affirmationTableSaved) {
     const aTS = JSON.parse(affirmationTableSaved);
-    if (aTS.date == current_date) {
+    if (aTS.date == state.current_date) {
         state.lastAffirmationDate = aTS.date;
         // console.log(aTS.count);
         state.lastAffirmationCount = aTS.count;
@@ -39,6 +39,8 @@ if (saved) {
 const textInputElem = document.getElementById('text-input');
 textInputElem.addEventListener('input', handleInput);
 const notes = document.getElementById('notes');
+const dashboard = document.getElementById('d0');
+
 // document.getElementsByName('difficulty').addEventListener('click',handleDiffChoice);
 const radioBtns = document.querySelectorAll('input[name="difficulty"]');
 document.getElementById('submit-bt').addEventListener('click', submitFn);
@@ -74,7 +76,7 @@ function submitFn() {
             state.chosen_difficulty = radioBtn.value;
         }
     }
-    state.savedNotes.push({ content: state.typed_content, difficulty: state.chosen_difficulty, date: current_date });
+    state.savedNotes.push({ content: state.typed_content, difficulty: state.chosen_difficulty, date: state.current_date });
     localStorage.setItem('savedNotes', JSON.stringify(state.savedNotes));
     state.newEntry = true;
     updateUI();
@@ -82,30 +84,26 @@ function submitFn() {
     state.typed_content = '';
 
 }
-
-function updateUI() { //todo add empty page design
-    current_date = new Date().toLocaleDateString();
-
-    // console.log(`${state.lastAffirmationDate}  ${ current_date}`);
+function handleAffirmations() {
 
     if (state.newEntry) {
         state.lastAffirmationCount++;
-        notes.innerHTML = renderAffirmation();
-        state.lastAffirmationDate = current_date;
-        localStorage.setItem('affirmationTable', JSON.stringify({ date: current_date, count: state.lastAffirmationCount }));
+        notes.innerHTML += renderAffirmation();
+        state.lastAffirmationDate = state.current_date;
+        localStorage.setItem('affirmationTable', JSON.stringify({ date: state.current_date, count: state.lastAffirmationCount }));
         state.newEntry = false;
-    } else if (state.lastAffirmationDate == current_date) {
+    } else if (state.lastAffirmationDate == state.current_date) {
         // console.log('nice');
-        notes.innerHTML = renderAffirmation();
-    } else {
-        notes.innerHTML = '';
+        notes.innerHTML += renderAffirmation();
     }
 
+}
+function renderNotes() {
     let todayString = "";
     let pastString = "";
     state.savedNotes.forEach((element, index) => {
 
-        if (new Date().toLocaleDateString() == element.date) {
+        if (state.current_date == element.date) {
             if (todayString == "") {
                 todayString = `<h2 id="notes-today">Today</h2>`;
             }
@@ -122,17 +120,30 @@ function updateUI() { //todo add empty page design
     });
 
     notes.innerHTML += todayString + pastString;
+
+}
+function updateUI() { //todo add empty page design
+    state.current_date = new Date().toLocaleDateString();
+    notes.innerHTML = '';
+    handleAffirmations();
+    renderNotes();
 }
 
 function renderAffirmation() {
-    // state.affirmation_text
-    if (state.lastAffirmationCount < 3) {
-        return state.affirmation_text[0];
-    } else if (state.lastAffirmationCount < 5) {
-        return state.affirmation_text[1];
-    } else {
-        return state.affirmation_text[2];
+    // state.affirmationsList
+    let currentAffirmation = '';
+    if (state.lastAffirmationCount < 1) {
+        return ``;
     }
+    if (state.lastAffirmationCount < 3) {
+        currentAffirmation = state.affirmationsList[0];
+    } else if (state.lastAffirmationCount < 5) {
+        currentAffirmation = state.affirmationsList[1];
+    } else {
+        currentAffirmation = state.affirmationsList[2];
+    }
+
+    return `<small class="ca-text">${currentAffirmation}</small>`
 }
 
 function delNote(index) {
